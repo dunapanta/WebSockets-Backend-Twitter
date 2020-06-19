@@ -1,0 +1,19 @@
+{
+  "name": "ejercicio-websockets",
+  "version": "1.0.0",
+  "description": "Ejercicio Web Sockets",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Unapanta",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "socket.io": "^2.3.0"
+  }
+}
