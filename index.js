@@ -34,16 +34,41 @@ io.on('connection', (socket) => {
     });
 });
 
-app.get('/', (req, res) => {
-    res.json({message: 'Ejemplo usando websockets'});
-});
-
-app.delete('/tweet', (req, res) => {
-    //obtenemos el indice del tweet que se desea borrar
-});
-
-app.post('/tweet', (req, res) => {
+//Mensaje de bienvenida
+app.get("/", (req, res) => {
+    res.json({ message: "Ejemplo usando websockets" });
+  });
+  
+  //Crear el tweet
+  app.post("/tweet", (req, res) => {
     tweets.push(req.body.tweet);
-    io.emit('feed', {tweets: tweets});
-    res.json({message: 'Se ha publicado tu Tweet'});
-});
+    io.emit("feed", { tweets: tweets });
+    res.json({ message: "Se ha publicado tu Tweet" });
+  });
+  
+  //Actualizar el tweet por indice
+  app.put("/tweet/:id", (req, res) => {
+    let id = Number(req.params.id);
+    let newTweet = req.body.tweet;
+  
+    let newA = tweets.map((el, item) => {
+      if (id === item) return (tweets[item] = newTweet);
+      else return el;
+    });
+  
+    io.emit("feed", { tweets: newA });
+    res.json({ message: "Se modificó el tweet.", tweets: newA });
+  });
+  
+  //Borrar el tweet por indice
+  app.delete("/tweet/:id", (req, res) => {
+    let id = req.params.id;
+    try {
+      tweets.splice(id, 1);
+      io.emit("feed", { tweets: tweets });
+      res.json({ message: "Se ha eliminado el Tweet" });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  
